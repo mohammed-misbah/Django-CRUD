@@ -1,0 +1,59 @@
+{%extends "employee_regstr/base.html"%}
+{% block content %}
+<form method="get" action="">
+    
+  <div class="input-group">
+    <div class="form-outline">
+      <input type="text" name="key" class="form-control" />
+      <label class="form-label" for="form1" ></label>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100px;height:40px;">
+      search<i class="fas fa-search"></i>
+    </button>
+  </div>
+   
+</form>
+<table class="table table-borderless">
+    <thead class="border-button font-weight-bold">
+        <tr>
+            <td>User Name</td>
+            <td>Mobile</td>
+            <td>Email</td>
+            <td>Place</td>
+            <!--click on Add New it will back to form field-->
+            <td>   
+                <a href="{% url 'employee_insert' %}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i>Add New
+                </a>
+                
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <!--all of the entered values listed here-->
+        {% for employee in employee_list %}
+        <tr>
+            <td>{{employee.username}}</td>
+            <td>{{employee.mobile}}</td>
+            <td>{{employee.email}}</td>
+            <td>{{employee.Place}}</td>
+
+
+            <td>  <!--updatting  button to add new field -->
+               <a href="{% url 'employee_update' employee.id %}" class="btn text-secondary px-0">
+                <!--fontawesome icon-->
+                <i class="far fa-edit fa-lg"></i>
+               </a>
+               <form action="{% url 'employee_delete' employee.id %}" method="post" class="d-inline">  <!--delete form-->
+                {% csrf_token %}
+                  <button type="submit" class="btn">
+                    <i class="fas fa-trash-alt fa-lg text-danger float-right"></i>
+                  </button>
+               </form>
+            </td>          
+        </tr>
+        {% endfor %}
+    </tbody>
+
+</table>
+{% endblock content %}
